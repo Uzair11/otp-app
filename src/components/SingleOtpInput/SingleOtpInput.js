@@ -22,6 +22,7 @@ export function SingleOTPInputComponent(props) {
             value={props.data}
             autoComplete="off"
             autoSave="false"
+            disabled={props.disabled}
             onChange={event => props.handleOtpChange(event.target, props.index)}
             onFocus={event => event.target.select()}
         />

@@ -4,13 +4,12 @@ import SingleOTPInput from "../SingleOtpInput";
 import { green } from '@material-ui/core/colors';
 // import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutlineIcon';
 
-export function Otp(props,ref) {
-    const [otp, setOtp] = React.useState(new Array(4).fill(""));
+export function Otp(props, ref) {
+    const [otp, setOtp] = React.useState(new Array(6).fill(""));
     const [otpMatch, setOtpMatch] = React.useState(false);
     const [optCount, setOtpCount] = React.useState(0);
 
     const handleOtpChange = (element, index) => {
-
         if (isNaN(element.value)) return false;
 
         setOtp(
@@ -18,8 +17,10 @@ export function Otp(props,ref) {
         )
 
         if (element.nextSibling.nextSibling) {
-            if (element.nextSibling.nextSibling.focus != undefined)
+            if (element.nextSibling.nextSibling.focus != undefined) {
+                element.nextSibling.nextSibling.disabled = false
                 element.nextSibling.nextSibling.focus();
+            }
         }
     }
 
@@ -29,14 +30,14 @@ export function Otp(props,ref) {
     }, [otp])
 
     useImperativeHandle(ref, () => ({
-        clearOtp () {
+        clearOtp() {
             setOtp([...otp.map(v => "")])
         }
     }), [])
 
     function Dash(props) {
         return (
-            props.index + 1 != otp.length ? "-" : ""
+            props.index + 1 === ((otp.length) / 2) ? "-" : ""
         )
     }
 
@@ -49,6 +50,7 @@ export function Otp(props,ref) {
                             handleOtpChange={handleOtpChange}
                             index={index}
                             data={data}
+                            disabled={index != 0}
                         />
                         <Dash key={index} index={index} />
                     </>
