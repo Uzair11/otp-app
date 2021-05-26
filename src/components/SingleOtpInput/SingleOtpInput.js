@@ -14,12 +14,14 @@ export function SingleOTPInputComponent(props) {
    
     return (
         <input
-            class="otpContainer otpInput"
+            className="otpContainer otpInput"
             type="text"
             name="otp"
             maxLength="1"
             key={props.index}
             value={props.data}
+            autoComplete="off"
+            autoSave="false"
             onChange={event => props.handleOtpChange(event.target, props.index)}
             onFocus={event => event.target.select()}
         />

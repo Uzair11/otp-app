@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect } from 'react';
+import React, { useEffect, forwardRef, useImperativeHandle } from 'react';
 import SingleOTPInput from "../SingleOtpInput";
+import { green } from '@material-ui/core/colors';
+// import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutlineIcon';
 
-export function Otp(props) {
+export function Otp(props,ref) {
     const [otp, setOtp] = React.useState(new Array(4).fill(""));
     const [otpMatch, setOtpMatch] = React.useState(false);
     const [optCount, setOtpCount] = React.useState(0);
@@ -15,8 +17,9 @@ export function Otp(props) {
             [...otp.map((value, i) => (i === index) ? element.value : value)]
         )
 
-        if (element.nextSibling) {
-            element.nextSibling.focus();
+        if (element.nextSibling.nextSibling) {
+            if (element.nextSibling.nextSibling.focus != undefined)
+                element.nextSibling.nextSibling.focus();
         }
     }
 
@@ -25,20 +28,34 @@ export function Otp(props) {
 
     }, [otp])
 
+    useImperativeHandle(ref, () => ({
+        clearOtp () {
+            setOtp([...otp.map(v => "")])
+        }
+    }), [])
+
+    function Dash(props) {
+        return (
+            props.index + 1 != otp.length ? "-" : ""
+        )
+    }
+
     return (
-        otpMatch ? <h1>OTP Matched, {otp}</h1> : (
+        otpMatch ? <><h1 style={{ color: "green" }}>OTP Matched, {otp}</h1></> : (
             otp.map((data, index) => {
                 return (
-                    <SingleOTPInput
-                        handleOtpChange={handleOtpChange}
-                        index={index}
-                        data={data}
-                    />
+                    <>
+                        <SingleOTPInput
+                            handleOtpChange={handleOtpChange}
+                            index={index}
+                            data={data}
+                        />
+                        <Dash key={index} index={index} />
+                    </>
                 )
             })
         )
     )
-
 }
 
-export default Otp;
+export default forwardRef(Otp);
