@@ -25,7 +25,7 @@ export function Otp(props, ref) {
     }
 
     useEffect(() => {
-        otp.filter(item => item != "").length === 4 ? setOtpMatch(true) : setOtpMatch(false)
+        otp.filter(item => item != "").length === otp.length ? setOtpMatch(true) : setOtpMatch(false)
 
     }, [otp])
 
@@ -51,6 +51,7 @@ export function Otp(props, ref) {
                             index={index}
                             data={data}
                             disabled={index != 0}
+                            autoFocus={index === 0}
                         />
                         <Dash key={index} index={index} />
                     </>

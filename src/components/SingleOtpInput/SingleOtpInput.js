@@ -17,6 +17,7 @@ export function SingleOTPInputComponent(props) {
             className="otpContainer otpInput"
             type="text"
             name="otp"
+            autoFocus={props.autoFocus}
             maxLength="1"
             key={props.index}
             value={props.data}
